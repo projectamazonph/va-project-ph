@@ -12,7 +12,10 @@ source-of-truth: docs/curriculum-syllabus.md
 
 # Syllabus to Implementation Tracks Reconciliation
 
-Bridges the authoritative syllabus in [`curriculum-syllabus.md`](./curriculum-syllabus.md) (a verbatim copy of the original beginner-first syllabus) to the engineering implementation tracks in the AMPH v2 codebase.
+Bridges the authoritative syllabus in [`curriculum-syllabus.md`](./curriculum-syllabus.md) (a verbatim copy of the original beginner-first syllabus) to the engineering implementation tracks in this standalone VA Project Philippines codebase.
+
+This is a greenfield project. It is not related to, dependent on, or migrated
+from `amph-v2-greenfield` or any other external implementation repository.
 
 ## Purpose
 
@@ -31,7 +34,7 @@ When adding new engineering tracks:
 
 ## Status legend
 
-- **Shipped** - feature is live in AMPH v2 production / greenfield.
+- **Shipped** - feature is live in this project's production / greenfield implementation.
 - **In progress** - actively being built.
 - **Planned** - scoped, story written, not yet started.
 - **Not started** - known gap, no commitment yet.
@@ -58,7 +61,7 @@ When adding new engineering tracks:
 
 ## Web app coaching aid modules (Part 2 of syllabus)
 
-The web app plan in the syllabus (lines 2,203-3,005) describes 10 web app modules (A-J). These map to engineering tracks in AMPH v2.
+The web app plan in the syllabus (lines 2,203-3,005) describes 10 web app modules (A-J). These map to engineering tracks in this repository.
 
 | Web app module | Topic | Implementation track | Status |
 |---|---|---|---|
@@ -77,7 +80,7 @@ The web app plan in the syllabus (lines 2,203-3,005) describes 10 web app module
 
 - Authoritative syllabus: [`curriculum-syllabus.md`](./curriculum-syllabus.md)
 - Voice rules: see `copy-bible.md` (PH blue/sun palette + Filipino VA voice)
-- AGENTS.md voice and design guardrails apply verbatim.
+- `docs/01-agent.md` voice and design guardrails apply verbatim.
 
 ## Update rule
 
