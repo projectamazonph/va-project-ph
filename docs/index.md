@@ -38,6 +38,7 @@ Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the
 | [34-interactions-and-events.md](./34-interactions-and-events.md) | Full interaction/event spec, fluidity rules | Design + Frontend Lead |
 | [35-copy-bible.md](./35-copy-bible.md) | All copy incl. landing hero | Design Lead |
 | [59-student-ux-copy-deck.md](./59-student-ux-copy-deck.md) | Student lesson and web-app UX copy deck | Curriculum + Design Lead |
+| [60-ux-ui-copy-foundation.md](./60-ux-ui-copy-foundation.md) | MVP UX/UI foundation, information architecture, flows, and student screen copy | Product + Design Lead |
 | [22-content-curriculum-ops.md](./22-content-curriculum-ops.md) | Curriculum pipeline & i18n | Design Lead |
 
 ## C - Engineering & Architecture
