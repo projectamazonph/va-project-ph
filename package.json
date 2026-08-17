@@ -11,8 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "prettier --write package.json tsconfig.json next-env.d.ts next.config.ts postcss.config.mjs eslint.config.mjs prettier.config.mjs vitest.config.ts playwright.config.ts commitlint.config.cjs pnpm-workspace.yaml .github/workflows/ci.yml",
+    "format:check": "prettier --check package.json tsconfig.json next-env.d.ts next.config.ts postcss.config.mjs eslint.config.mjs prettier.config.mjs vitest.config.ts playwright.config.ts commitlint.config.cjs pnpm-workspace.yaml .github/workflows/ci.yml"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.3.3",
