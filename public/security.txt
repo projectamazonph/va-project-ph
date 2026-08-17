@@ -1,0 +1,4 @@
+Contact: mailto:security@thevaproject.ph
+Expires: 2027-08-17T00:00:00.000Z
+Preferred-Languages: en, tl
+Policy: https://thevaproject.ph/security

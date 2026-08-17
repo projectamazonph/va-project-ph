@@ -1,0 +1,80 @@
+@import url("https://cdn.jsdelivr.net/npm/@fontsource-variable/inter@5.2.6/index.css");
+@import url("https://cdn.jsdelivr.net/npm/@fontsource-variable/sora@5.2.6/index.css");
+@import "tailwindcss";
+
+:root {
+  --color-ink: #0a1f3c;
+  --color-blue-700: #1a4fbf;
+  --color-blue-800: #153f98;
+  --color-blue-50: #eaf1fe;
+  --color-sun-400: #f5b301;
+  --color-sun-50: #fff6de;
+  --color-paper: #f7f8fb;
+  --color-card: #ffffff;
+  --color-success: #15803d;
+  --color-danger: #c81e3c;
+  --color-warn: #b45309;
+  --color-muted: #5b6b84;
+  --color-line: #e3e8f0;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-blue-50: var(--color-blue-50);
+  --color-blue-700: var(--color-blue-700);
+  --color-blue-800: var(--color-blue-800);
+  --color-sun-50: var(--color-sun-50);
+  --color-sun-400: var(--color-sun-400);
+  --color-paper: var(--color-paper);
+  --color-card: var(--color-card);
+  --color-success: var(--color-success);
+  --color-danger: var(--color-danger);
+  --color-warn: var(--color-warn);
+  --color-muted: var(--color-muted);
+  --color-line: var(--color-line);
+  --font-display: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-card: 0 1px 2px rgb(10 31 60 / 5%), 0 8px 24px rgb(10 31 60 / 6%);
+  --shadow-pop: 0 12px 32px rgb(10 31 60 / 16%);
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  background: var(--color-paper);
+}
+
+body {
+  min-width: 320px;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: var(--color-sun-400);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

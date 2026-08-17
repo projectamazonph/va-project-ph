@@ -19,4 +19,23 @@ Working files (not in the numbered scheme) live alongside `docs/`: `curriculum-s
 
 ## Status
 
-This repo is the **documentation-only** companion for the VA Project Philippines project. The active implementation lives in `projectamazonph/amph-v2-greenfield` (a separate Next.js codebase). The two repos are kept in sync via the curriculum, help center, and simulator catalogs.
+This repository is the **standalone greenfield home** for the VA Project Philippines platform. It has no external implementation dependency or companion repository.
+
+The documentation in this repository is the source of truth for the product, architecture, curriculum, operations, and engineering conventions. The application implementation will be scaffolded and developed here as the project progresses.
+
+## Development
+
+The application uses Next.js App Router, TypeScript strict mode, Tailwind CSS,
+Zod, and Vitest. Start locally with:
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Run the full local quality gate with `pnpm format:check`, `pnpm lint`,
+`pnpm typecheck`, `pnpm test`, and `pnpm build`.
+
+The initial implementation lives in `app/`, shared UI primitives in
+`components/ui/`, business foundations in `lib/` and `server/`, and tests in
+`tests/`. Product and architecture decisions remain documented under `docs/`.

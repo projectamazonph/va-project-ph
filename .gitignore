@@ -4,19 +4,23 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Node (only relevant if downstream tooling is added later)
+# Node
 node_modules/
 .pnpm-store/
+.next/
+coverage/
+playwright-report/
+test-results/
 
 # Logs and temp
 *.log
 *.tmp
 *.bak
 
-# Local env files (none should exist in this repo)
+# Environment files - never commit secrets
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 
 # OS-generated scratch
 ~$*
