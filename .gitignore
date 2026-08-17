@@ -1,0 +1,23 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node (only relevant if downstream tooling is added later)
+node_modules/
+.pnpm-store/
+
+# Logs and temp
+*.log
+*.tmp
+*.bak
+
+# Local env files (none should exist in this repo)
+.env
+.env.local
+.env.*.local
+
+# OS-generated scratch
+~$*
+*.swp
