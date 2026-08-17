@@ -19,10 +19,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      # The lockfile is generated on the first dependency bootstrap in this greenfield repo.
+      - name: Scan for leaked secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: pnpm docs:check
+      # Temporary bootstrap mode; switch to --frozen-lockfile once pnpm-lock.yaml is committed.
       - run: pnpm install --no-frozen-lockfile
+      - run: pnpm audit --audit-level=high
       - run: pnpm format:check
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
       - run: pnpm build

@@ -1,10 +1,16 @@
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { requireSession } from "@/server/auth/session";
 
 export const metadata = { title: "Learning hub" };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const previewMode = process.env.NODE_ENV !== "production" && process.env.PREVIEW_MODE === "true";
+  if (!previewMode) {
+    await requireSession("/dashboard");
+  }
+
   return (
     <main className="min-h-screen">
       <header className="border-b border-line bg-ink text-white">

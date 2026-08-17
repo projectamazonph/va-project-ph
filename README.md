@@ -33,9 +33,12 @@ pnpm install
 pnpm dev
 ```
 
-Run the full local quality gate with `pnpm format:check`, `pnpm lint`,
-`pnpm typecheck`, `pnpm test`, and `pnpm build`.
+Run the full local quality gate with `pnpm docs:check`, `pnpm format:check`,
+`pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm test:e2e`, and `pnpm build`.
 
 The initial implementation lives in `app/`, shared UI primitives in
 `components/ui/`, business foundations in `lib/` and `server/`, and tests in
 `tests/`. Product and architecture decisions remain documented under `docs/`.
+
+The `/dashboard` route is protected by default. `PREVIEW_MODE=true` is reserved
+for local and E2E scaffold previews; it must not be enabled in production.

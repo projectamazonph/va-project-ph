@@ -41,4 +41,17 @@ describe("calculateReportMetrics", () => {
       breakEvenPct: 30,
     });
   });
+
+  it("rejects impossible report relationships before calculating", () => {
+    expect(() =>
+      calculateReportMetrics({
+        spend: 100,
+        sales: 400,
+        clicks: 51,
+        impressions: 50,
+        orders: 52,
+        marginPct: 25,
+      }),
+    ).toThrow();
+  });
 });

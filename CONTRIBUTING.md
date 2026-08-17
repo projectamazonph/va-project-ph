@@ -8,10 +8,12 @@ architecture document in `docs/`, then follow the TDD and plain-words rules in
 
 ```bash
 pnpm install
+pnpm docs:check
 pnpm format:check
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm test:e2e
 pnpm build
 ```
 

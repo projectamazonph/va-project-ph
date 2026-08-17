@@ -19,10 +19,6 @@ Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the
 | File | Purpose | Owner |
 |---|---|---|
 | [01-agent.md](./01-agent.md) | AI agent guardrails & instructions | Tech Lead |
-| [13-engineering-standards.md](./13-engineering-standards.md) | SOLID + strict TDD protocol | Tech Lead |
-| [14-git-guardrails.md](./14-git-guardrails.md) | Branching, commits, PR rules | Tech Lead |
-| [15-living-documentation.md](./15-living-documentation.md) | Anti-stale documentation system | Docs Owner |
-| [17-adr-template.md](./17-adr-template.md) | Architecture Decision Records | Tech Lead |
 | [47-product-process.md](./47-product-process.md) | PRD-lite, prioritization, experiments | Product Owner |
 | [52-raci.md](./52-raci.md) | Ownership & decision routing | Product Owner |
 | [58-templates.md](./58-templates.md) | All referenced templates in one place | Docs Owner |
@@ -32,7 +28,6 @@ Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the
 | File | Purpose | Owner |
 |---|---|---|
 | [02-design.md](./02-design.md) | Original UI/UX system (tokens superseded by 31) | Design Lead |
-| [31-brand-identity.md](./31-brand-identity.md) | VAPP brand, theme tokens, visual guardrails | Design Lead |
 | [32-personas-and-stories.md](./32-personas-and-stories.md) | Filipino personas, journeys, metrics | Product Owner |
 | [33-wireframes-mobile-first.md](./33-wireframes-mobile-first.md) | Every page's wire + element maps | Design Lead |
 | [34-interactions-and-events.md](./34-interactions-and-events.md) | Full interaction/event spec, fluidity rules | Design + Frontend Lead |
@@ -74,7 +69,6 @@ Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the
 |---|---|---|
 | [20-testing-quality.md](./20-testing-quality.md) | Test strategy, UAT, beta | Tech Lead |
 | [21-observability-slo.md](./21-observability-slo.md) | SLOs, dashboards, alerts | DevOps Lead |
-| [16-runbooks.md](./16-runbooks.md) | Incidents & operations | DevOps Lead |
 | [54-status-page.md](./54-status-page.md) | Service status communication | DevOps Lead |
 | [55-changelog-policy.md](./55-changelog-policy.md) | Release communication | Docs Owner |
 | [53-help-center.md](./53-help-center.md) | User-facing knowledge base | Docs Owner |
@@ -86,7 +80,6 @@ Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the
 
 | File | Purpose | Owner |
 |---|---|---|
-| [18-project-plan.md](./18-project-plan.md) | Build milestones | Tech Lead |
 | [23-analytics-metrics.md](./23-analytics-metrics.md) | Event taxonomy & KPIs | Product Owner |
 | [25-notifications.md](./25-notifications.md) | Email & in-app rules | Product Owner |
 | [46-billing-payments.md](./46-billing-payments.md) | Payments, entitlements, PH receipts | Tech Lead + Finance |
@@ -98,13 +91,6 @@ Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the
 
 | File | Purpose | Owner |
 |---|---|---|
-| [36-simulators-platform.md](./36-simulators-platform.md) | Shared engine, scoring, shell | Product + Tech Lead |
-| [37-sim-console-wizard.md](./37-sim-console-wizard.md) | S4 Wizard (SP/SB/SD) + S5 Console Nav | Design + Backend Lead |
-| [38-sim-analytics.md](./38-sim-analytics.md) | S1 STR Lab + S10 SQP Studio | Backend Lead |
-| [39-sim-research.md](./39-sim-research.md) | S6 Keyword Research Studio | Curriculum + Design |
-| [40-sim-operations.md](./40-sim-operations.md) | S2 Bid - S3 Budget/Pacing - S7 Bulk | Backend Lead |
-| [41-sim-field-skills.md](./41-sim-field-skills.md) | S8 Architect - S9 Audit - S11 Onboarding - S12-S14 | Product Owner |
-| [42-simulator-roadmap.md](./42-simulator-roadmap.md) | Build order & dependencies | Tech Lead |
 
 ## H - Audits & History
 
@@ -121,7 +107,20 @@ Complete through production gates: build, design, security, PH legal, payments, 
 Intentionally parked (see 30-open-questions.md): native mobile app, multi-tenant agency workspaces, SOC 2, live Amazon Ads write-access.
 Scheduled but not yet authored (assign when triggered): penetration test happens from 58 section 3 template; help-center article bodies authored per 53 section 2 IA as features land.
 
-Next actions: run check-docs after the 19b rename; schedule doc-day verification of sections A-H owners.
+Next actions: keep `pnpm docs:check` green after documentation changes; schedule doc-day verification of sections A-H owners.
+
+## Planned documentation
+
+These documents are referenced by the product plan but are not authored yet. They are listed as plain filenames so the active catalog contains only working links:
+
+- `13-engineering-standards.md` - SOLID and strict TDD protocol
+- `14-git-guardrails.md` - Branching, commits, and PR rules
+- `15-living-documentation.md` - Anti-stale documentation system
+- `16-runbooks.md` - Incidents and operations
+- `17-adr-template.md` - Architecture Decision Records
+- `18-project-plan.md` - Build milestones
+- `31-brand-identity.md` - Brand and visual tokens
+- `36-simulators-platform.md` through `42-simulator-roadmap.md` - Simulator platform and build specifications
 
 ## Working Files (not in numbered scheme)
 

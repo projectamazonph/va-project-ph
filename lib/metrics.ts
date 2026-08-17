@@ -1,3 +1,5 @@
+import { ReportMetricsInputSchema, type ReportMetricsInput } from "@/lib/schemas/report-metrics";
+
 export type ReportMetrics = {
   acosPct: number | null;
   roas: number;
@@ -7,15 +9,8 @@ export type ReportMetrics = {
   breakEvenPct: number;
 };
 
-export function calculateReportMetrics(input: {
-  spend: number;
-  sales: number;
-  clicks: number;
-  impressions: number;
-  orders: number;
-  marginPct: number;
-}): ReportMetrics {
-  const { spend, sales, clicks, impressions, orders, marginPct } = input;
+export function calculateReportMetrics(input: ReportMetricsInput): ReportMetrics {
+  const { spend, sales, clicks, impressions, orders, marginPct } = ReportMetricsInputSchema.parse(input);
 
   return {
     acosPct: sales > 0 ? (spend / sales) * 100 : null,

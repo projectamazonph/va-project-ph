@@ -32,6 +32,11 @@ MFA required for teacher and admin roles.
 Password reset: single-use token, 15-minute expiry, rate-limited.
 Account lockout: 5 failed attempts -> 10-minute cooldown + audit log entry.
 
+Scaffold enforcement: protected routes use `requireSession()` and verify an
+HMAC-signed `va_session` cookie before rendering. Token issuance remains part
+of the Auth.js credentials integration. `PREVIEW_MODE=true` is allowed only for
+non-production local/E2E previews and must never be enabled in production.
+
 ## Authorization (RBAC)
 
 | Role | Can |
