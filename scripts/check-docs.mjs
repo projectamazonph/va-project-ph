@@ -39,5 +39,5 @@ if (missingLinks.length > 0) {
   }
   process.exitCode = 1;
 } else {
-  console.log(`Checked ${markdownFiles.length} Markdown files; all local links resolve.`);
+  process.stdout.write(`Checked ${markdownFiles.length} Markdown files; all local links resolve.\n`);
 }
