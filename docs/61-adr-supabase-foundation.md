@@ -42,6 +42,10 @@ requirements without adding an application-owned session system.
   role data from `public.profiles`.
 - Student, teacher, and admin access is enforced by RLS policies, not only by
   UI visibility.
+- Role changes are administrative and cannot be performed through a student's
+  profile update permission.
+- Student submission writes and teacher review writes use separate permissions;
+  review state changes go through a constrained server-side database function.
 - Auth email templates must use the token-hash confirmation flow before shared
   testing begins.
 

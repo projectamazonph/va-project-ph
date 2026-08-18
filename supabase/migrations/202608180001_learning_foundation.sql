@@ -229,6 +229,10 @@ for update to authenticated
 using (id = auth.uid())
 with check (id = auth.uid());
 
+-- Role changes are administrative. Students may update their display name only.
+revoke update on public.profiles from authenticated;
+grant update (display_name) on public.profiles to authenticated;
+
 drop policy if exists courses_select on public.courses;
 create policy courses_select on public.courses
 for select to authenticated
@@ -328,26 +332,74 @@ using (
   )
 );
 
-drop policy if exists submissions_write_self on public.worksheet_submissions;
-create policy submissions_write_self on public.worksheet_submissions
-for all to authenticated
-using (student_id = auth.uid())
+drop policy if exists submissions_review on public.worksheet_submissions;
+drop policy if exists submissions_insert_self on public.worksheet_submissions;
+create policy submissions_insert_self on public.worksheet_submissions
+for insert to authenticated
 with check (student_id = auth.uid());
 
-drop policy if exists submissions_review on public.worksheet_submissions;
-create policy submissions_review on public.worksheet_submissions
+drop policy if exists submissions_update_self on public.worksheet_submissions;
+create policy submissions_update_self on public.worksheet_submissions
 for update to authenticated
-using (
-  public.is_admin()
-  or exists (
-    select 1 from public.teacher_student_links link
-    where link.teacher_id = auth.uid() and link.student_id = worksheet_submissions.student_id
-  )
+using (student_id = auth.uid() and status in ('draft', 'changes_requested'))
+with check (student_id = auth.uid() and status in ('draft', 'submitted', 'changes_requested'));
+
+-- Students can write their response and submission state, but never review fields.
+revoke insert, update, delete on public.worksheet_submissions from authenticated;
+grant insert (worksheet_id, student_id, status, response, submitted_at, updated_at)
+on public.worksheet_submissions to authenticated;
+grant update (status, response, submitted_at, updated_at)
+on public.worksheet_submissions to authenticated;
+
+-- Review writes are a constrained server-side operation. The function performs
+-- its own teacher/student-link check before changing reviewer-owned columns.
+create or replace function public.review_worksheet_submission(
+  p_submission_id uuid,
+  p_status text,
+  p_teacher_feedback text default null
 )
-with check (
-  public.is_admin()
-  or exists (
-    select 1 from public.teacher_student_links link
-    where link.teacher_id = auth.uid() and link.student_id = worksheet_submissions.student_id
-  )
-);
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  submission_student_id uuid;
+begin
+  if not public.is_teacher_or_admin() then
+    raise exception 'Only teachers and admins may review submissions';
+  end if;
+
+  if p_status not in ('changes_requested', 'approved') then
+    raise exception 'Invalid review status';
+  end if;
+
+  select student_id into submission_student_id
+  from public.worksheet_submissions
+  where id = p_submission_id;
+
+  if submission_student_id is null then
+    raise exception 'Submission not found';
+  end if;
+
+  if not (
+    public.is_admin()
+    or exists (
+      select 1 from public.teacher_student_links link
+      where link.teacher_id = auth.uid() and link.student_id = submission_student_id
+    )
+  ) then
+    raise exception 'Teacher is not linked to this student';
+  end if;
+
+  update public.worksheet_submissions
+  set status = p_status,
+      teacher_feedback = p_teacher_feedback,
+      reviewed_by = auth.uid(),
+      reviewed_at = timezone('utc', now())
+  where id = p_submission_id;
+end;
+$$;
+
+revoke execute on function public.review_worksheet_submission(uuid, text, text) from public;
+grant execute on function public.review_worksheet_submission(uuid, text, text) to authenticated;
