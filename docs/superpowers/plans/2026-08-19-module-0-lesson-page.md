@@ -1925,18 +1925,3 @@ git tag -a v0.1.0-module-0 -m "First shippable v3 student-facing feature"
 | New `gray-matter` dependency adds attack surface | Pinned version (4.0.3), no transitive runtime code used beyond frontmatter parsing |
 | Next.js 16 cache API specifics | PR #2 confirms exact API (`cacheLife`/`cacheTag` vs older `fetch` options) against installed Next.js version before committing |
 | Lesson body rendered as `<pre>` (no MDX renderer wired up) | Flagged in PR #4 description; follow-up PR picks `@next/mdx` or `next-mdx-remote` after design review |
-
-## Schema correction (applied 2026-08-19)
-
-The first 7 commits on `feat/curriculum-content-module-0` referenced columns
-that don't exist in `learning_foundation.sql`. Commit `fix(curriculum): align
-module/lesson shapes with learning_foundation.sql` corrects the four
-schema-direct files; the plan tasks in Phases 2–5 must read:
-
-- `module.goal` → course title (from `courses.title`) in `app/(app)/learn/.../page.tsx`.
-- `lesson.body` → `(lesson.content as { raw: string }).raw` (rendered as `<pre>` until an MDX renderer is chosen).
-- `modules.est_minutes` → not displayed; `lessons.estimated_minutes` is shown per lesson.
-- Module lookup: URL `module-N` → `ModuleRoutingSlugSchema.parse(slug)` → integer position → query `modules(eq('course_id', X), eq('position', N))`.
-
-No plan tasks have been re-flowed; the diff is left as the surgical commit
-above plus this note.
