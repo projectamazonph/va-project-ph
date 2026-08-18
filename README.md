@@ -12,7 +12,7 @@ The full numbered documentation catalog lives in `docs/index.md`. It is organize
 - **D. Security, Legal & Compliance** - vendor risk register, PH compliance, security
 - **E. Quality & Operations** - RACI, help center, status page, changelog policy, templates
 - **F. Product & Growth** - production gap audit, architecture, infrastructure, billing, product process, growth, teacher quality, offline performance, partnerships
-- **G. Simulators** - slot reserved for the seven simulator specs
+- **G. Simulators** - shared platform plus six simulator specification and roadmap docs
 - **H. Audits** - production gap audit, open questions
 
 Working files (not in the numbered scheme) live alongside `docs/`: `curriculum-syllabus.md` and `syllabus-to-tracks-reconciliation.md`.
@@ -42,3 +42,14 @@ The initial implementation lives in `app/`, shared UI primitives in
 
 The `/dashboard` route is protected by default. `PREVIEW_MODE=true` is reserved
 for local and E2E scaffold previews; it must not be enabled in production.
+
+### Supabase setup
+
+Copy `.env.example` to `.env.local` and set the `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` values from the Supabase `Academy`
+project. Configure the Auth confirmation and magic-link email templates to send
+`token_hash` to `/auth/confirm` before testing sign-in.
+
+The initial database contract is committed under `supabase/migrations/`. Do not
+apply it to a shared environment until the migration has been reviewed and
+tested against a development database.

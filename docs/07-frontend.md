@@ -61,7 +61,7 @@ Forms: react-hook-form + zod resolver (schema from 04-schema.md).
 
 ```
 Form (client) -> zod client hint -> Server Action (12-server-actions.md)
--> service -> repository -> Prisma -> revalidateTag -> UI update + toast
+-> service -> repository -> Supabase -> revalidateTag -> UI update + toast
 ```
 
 Server is always authoritative; client validation is UX only.

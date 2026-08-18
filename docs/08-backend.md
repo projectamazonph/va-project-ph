@@ -17,9 +17,9 @@ Runtime: Node 22 · Next.js route handlers + server actions · Postgres + Redis
 ```
 UI / Route Handler / Server Action        <- transport only
         |
-Service layer  (business rules)           <- pure-ish, testable, no Prisma in signatures
+Service layer  (business rules)           <- pure-ish, testable, no Supabase types in signatures
         |
-Repository layer (data access)            <- only place Prisma is imported
+Repository layer (data access)            <- only place Supabase clients are imported
         |
 Postgres / Redis / external adapters      <- behind interfaces for testability
 ```

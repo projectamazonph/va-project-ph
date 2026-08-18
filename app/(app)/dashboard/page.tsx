@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ButtonLink } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { requireSession } from "@/server/auth/session";
 
@@ -18,7 +18,14 @@ export default async function DashboardPage() {
           <Link className="font-display font-bold tracking-tight" href="/">
             VA Project <span className="text-sun-400">PH</span>
           </Link>
-          <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/80">Preview</span>
+          <div className="flex items-center gap-3">
+            <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/80">Preview</span>
+            <form action="/auth/logout" method="post">
+              <Button className="text-white hover:bg-white/10" size="sm" variant="ghost" type="submit">
+                Sign out
+              </Button>
+            </form>
+          </div>
         </div>
       </header>
       <div className="mx-auto max-w-6xl px-4 py-10 md:px-6 lg:px-8">

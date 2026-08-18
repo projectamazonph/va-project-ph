@@ -19,7 +19,7 @@ Version: 1.0 · Reviewed: 2026-08-17 · Owner: Tech Lead
 - [ ] Vercel/deploy platform, database, Redis access (least privilege)
 - [ ] .env.local from 1Password vault "ppc-dev" (never shared in chat)
 - [ ] Added to CODEOWNERS-relevant team; doc owner assignment if applicable
-- [ ] Read: 00-INDEX.md, 01-agent.md, 13-engineering-standards.md, 14-git-guardrails.md
+- [ ] Read: docs/index.md, AGENTS.md, 13-engineering-standards.md, 14-git-guardrails.md
 
 ### Local setup
 

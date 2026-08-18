@@ -2,7 +2,7 @@
 
 The VA Project Philippines is a greenfield project. Start with the relevant
 architecture document in `docs/`, then follow the TDD and plain-words rules in
-`docs/01-agent.md` and `docs/20-testing-quality.md`.
+`AGENTS.md` and `docs/20-testing-quality.md`.
 
 ## Local checks
 

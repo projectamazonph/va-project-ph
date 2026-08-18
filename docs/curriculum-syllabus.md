@@ -1,17 +1,38 @@
-# Amazon PPC Training Syllabus
-
-**Source-of-truth document.** Authoritative syllabus for Pinoy PPC Academy.
-**Status:** Saved on 2026-08-17. Verbatim copy of the original syllabus authored for absolute beginners becoming competent Amazon PPC virtual assistants.
-**Reconciliation:** See `syllabus-to-tracks-reconciliation.md` for the mapping between this syllabus and the existing implementation tracks.
-
+---
+title: Amazon PPC Training Syllabus
+file: curriculum-syllabus.md
+version: 1.0
+reviewed: 2026-08-18
+owner: Curriculum Lead
+status: active
+document-type: curriculum source of truth
+audience: curriculum authors, teachers, product, and engineering teams
+source: approved beginner-first syllabus for Pinoy PPC Academy
+related-documents:
+  - syllabus-to-tracks-reconciliation.md
 ---
 
-Hi Ryan - below is a complete, beginner-first syllabus you can use to teach Amazon PPC to people with zero knowledge. It is written in simple words and is designed specifically to turn virtual assistants into competent PPC managers. After the syllabus, I include a full plan for turning this into a web app coaching aid.
-
----
-
 # Amazon PPC Training Syllabus
-## From Zero Knowledge to Competent Virtual Assistant Manager
+
+## Document Control
+
+| Field | Value |
+|---|---|
+| Document type | Curriculum source of truth |
+| Product | Pinoy PPC Academy |
+| Owner | Curriculum Lead |
+| Status | Active |
+| Version | 1.0 |
+| Review cadence | At least every 30 days and whenever a module changes |
+| Implementation mapping | [`syllabus-to-tracks-reconciliation.md`](./syllabus-to-tracks-reconciliation.md) |
+
+## Purpose and Authority
+
+This document defines the approved, beginner-first curriculum for teaching Amazon PPC to virtual assistants with no prior advertising experience. It is written in plain language and is designed to develop safe, competent PPC support and management skills.
+
+The syllabus is the curriculum source of truth. Lessons, quizzes, practice cases, simulator activities, and other learning content must trace back to one or more sections in this document. The implementation mapping and delivery status for those learning experiences are maintained in [`syllabus-to-tracks-reconciliation.md`](./syllabus-to-tracks-reconciliation.md).
+
+> From Zero Knowledge to Competent Virtual Assistant Manager
 
 ## Course Goal
 
@@ -3002,4 +3023,6 @@ This creates a complete training system where absolute beginners can safely beco
 
 ---
 
-End of syllabus.
+## Document End
+
+This is the end of the authoritative curriculum source.

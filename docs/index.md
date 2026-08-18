@@ -2,7 +2,7 @@
 title: Documentation Index
 file: index.md
 version: 3.0
-reviewed: 2026-08-17
+reviewed: 2026-08-18
 owner: Docs Owner
 status: active
 product: VA Project Philippines (PPC Coach + Filipino VA training, one unified product)
@@ -11,14 +11,20 @@ supersedes: docs/index.md v2 (production-readiness framework section added)
 
 # The VA Project Philippines - Documentation Index (v3)
 
-Last verified: 2026-08-17 - Owner: Docs Owner - Rule: every doc carries frontmatter; re-verify every 30 days (15-living-documentation.md).
+Last verified: 2026-08-18 - Owner: Docs Owner - Rule: every doc carries frontmatter; re-verify every 30 days (15-living-documentation.md).
 Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the duplicate-19 numbering; all references updated.
 
 ## A - Agent, Process & Standards
 
 | File | Purpose | Owner |
 |---|---|---|
-| [01-agent.md](./01-agent.md) | AI agent guardrails & instructions | Tech Lead |
+| [../AGENTS.md](../AGENTS.md) | AI agent guardrails & instructions | Tech Lead |
+| [13-engineering-standards.md](./13-engineering-standards.md) | SOLID + strict TDD protocol | Tech Lead |
+| [14-git-guardrails.md](./14-git-guardrails.md) | Branching, commits, PR rules | DevOps Lead |
+| [15-living-documentation.md](./15-living-documentation.md) | Anti-stale documentation system | Docs Owner |
+| [16-runbooks.md](./16-runbooks.md) | Incidents, releases, and recovery | DevOps Lead |
+| [17-adr-template.md](./17-adr-template.md) | Architecture Decision Records | Tech Lead |
+| [18-project-plan.md](./18-project-plan.md) | Milestones, gates, and sequencing | Product Owner |
 | [47-product-process.md](./47-product-process.md) | PRD-lite, prioritization, experiments | Product Owner |
 | [52-raci.md](./52-raci.md) | Ownership & decision routing | Product Owner |
 | [58-templates.md](./58-templates.md) | All referenced templates in one place | Docs Owner |
@@ -28,13 +34,17 @@ Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the
 | File | Purpose | Owner |
 |---|---|---|
 | [02-design.md](./02-design.md) | Original UI/UX system (tokens superseded by 31) | Design Lead |
+| [31-brand-identity.md](./31-brand-identity.md) | VAPP brand identity and visual tokens | Design Lead |
 | [32-personas-and-stories.md](./32-personas-and-stories.md) | Filipino personas, journeys, metrics | Product Owner |
 | [33-wireframes-mobile-first.md](./33-wireframes-mobile-first.md) | Every page's wire + element maps | Design Lead |
 | [34-interactions-and-events.md](./34-interactions-and-events.md) | Full interaction/event spec, fluidity rules | Design + Frontend Lead |
 | [35-copy-bible.md](./35-copy-bible.md) | All copy incl. landing hero | Design Lead |
 | [59-student-ux-copy-deck.md](./59-student-ux-copy-deck.md) | Student lesson and web-app UX copy deck | Curriculum + Design Lead |
 | [60-ux-ui-copy-foundation.md](./60-ux-ui-copy-foundation.md) | MVP UX/UI foundation, information architecture, flows, and student screen copy | Product + Design Lead |
+| [61-adr-supabase-foundation.md](./61-adr-supabase-foundation.md) | Supabase authentication, persistence, and RLS decision | Tech Lead |
 | [22-content-curriculum-ops.md](./22-content-curriculum-ops.md) | Curriculum pipeline & i18n | Design Lead |
+| [curriculum-syllabus.md](./curriculum-syllabus.md) | Authoritative beginner-first Amazon PPC curriculum source of truth | Curriculum Lead |
+| [syllabus-to-tracks-reconciliation.md](./syllabus-to-tracks-reconciliation.md) | Curriculum-to-product traceability for modules 0-14 and coaching aids A-J | Tech Lead + Curriculum Lead |
 
 ## C - Engineering & Architecture
 
@@ -91,6 +101,13 @@ Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the
 
 | File | Purpose | Owner |
 |---|---|---|
+| [36-simulators-platform.md](./36-simulators-platform.md) | Shared engine, scoring, shell | Product + Tech Lead |
+| [37-sim-console-wizard.md](./37-sim-console-wizard.md) | S4 campaign wizard and console navigation | Design + Backend Lead |
+| [38-sim-analytics.md](./38-sim-analytics.md) | S1 search-term lab and S10 SQP studio | Backend + Curriculum Lead |
+| [39-sim-research.md](./39-sim-research.md) | S6 keyword research studio | Curriculum + Design Lead |
+| [40-sim-operations.md](./40-sim-operations.md) | S2 bids, S3 pacing, and S7 bulk work | Backend + Curriculum Lead |
+| [41-sim-field-skills.md](./41-sim-field-skills.md) | S8-S14 architecture, audit, onboarding, capstone | Product + Curriculum Lead |
+| [42-simulator-roadmap.md](./42-simulator-roadmap.md) | Build order and dependencies | Product + Tech Lead |
 
 ## H - Audits & History
 
@@ -109,24 +126,4 @@ Scheduled but not yet authored (assign when triggered): penetration test happens
 
 Next actions: keep `pnpm docs:check` green after documentation changes; schedule doc-day verification of sections A-H owners.
 
-## Planned documentation
-
-These documents are referenced by the product plan but are not authored yet. They are listed as plain filenames so the active catalog contains only working links:
-
-- `13-engineering-standards.md` - SOLID and strict TDD protocol
-- `14-git-guardrails.md` - Branching, commits, and PR rules
-- `15-living-documentation.md` - Anti-stale documentation system
-- `16-runbooks.md` - Incidents and operations
-- `17-adr-template.md` - Architecture Decision Records
-- `18-project-plan.md` - Build milestones
-- `31-brand-identity.md` - Brand and visual tokens
-- `36-simulators-platform.md` through `42-simulator-roadmap.md` - Simulator platform and build specifications
-
-## Working Files (not in numbered scheme)
-
-These are source content / artifacts, not formal docs:
-
-| File | Purpose | Owner |
-|---|---|---|
-| [curriculum-syllabus.md](./curriculum-syllabus.md) | Curriculum source content (3,006 lines) | Curriculum Lead |
-| [syllabus-to-tracks-reconciliation.md](./syllabus-to-tracks-reconciliation.md) | Maps curriculum modules 0-14 and web app coaching aids A-J to implementation tracks | Tech Lead + Curriculum Lead |
+The curriculum source and its implementation traceability register are formal documentation assets. Both carry document control metadata and are governed by the living-documentation rules in [15-living-documentation.md](./15-living-documentation.md).
