@@ -3,19 +3,16 @@ import { join } from "node:path";
 import matter from "gray-matter";
 import { createClient } from "@supabase/supabase-js";
 import {
-  LessonMetaSchema,
-  ModuleMetaSchema,
-  type LessonMeta,
-  type ModuleMeta,
+  LessonSchema,
+  ModuleSchema,
+  type LessonInput,
+  type ModuleInput,
 } from "@/lib/schemas/curriculum";
 
-export const COURSE_TITLE = "Amazon PPC Foundations";
-
 export type BuildUpsertInput = {
-  module: ModuleMeta;
-  lessons: LessonMeta[];
+  module: ModuleInput;
+  lessons: LessonInput[];
   moduleId: string;
-  courseId: string;
 };
 
 export type BuildUpsertOutput = {
@@ -23,21 +20,21 @@ export type BuildUpsertOutput = {
   lessons: Array<Record<string, unknown>>;
 };
 
-type ZodIssueLike = { path: PropertyKey[]; message: string };
-
 export function buildUpsertPayload(input: BuildUpsertInput): BuildUpsertOutput {
-  const moduleParsed = ModuleMetaSchema.safeParse(input.module);
+  const moduleParsed = ModuleSchema.safeParse(input.module);
   if (!moduleParsed.success) {
     throw new Error(
-      `Module validation failed: ${moduleParsed.error.issues.map((i: ZodIssueLike) => `${(i.path as Array<string | number>).join(".")}: ${i.message}`).join("; ")}`,
+      `Module validation failed: ${moduleParsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`,
     );
   }
+  const validatedModule = moduleParsed.data;
+
   const lessons: Array<Record<string, unknown>> = [];
   for (const lesson of input.lessons) {
-    const lessonParsed = LessonMetaSchema.safeParse(lesson);
+    const lessonParsed = LessonSchema.safeParse(lesson);
     if (!lessonParsed.success) {
       throw new Error(
-        `Lesson validation failed (${lesson.slug ?? "unknown"}): ${lessonParsed.error.issues.map((i: ZodIssueLike) => `${(i.path as Array<string | number>).join(".")}: ${i.message}`).join("; ")}`,
+        `Lesson validation failed (${lesson.slug ?? "unknown"}): ${lessonParsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`,
       );
     }
     const v = lessonParsed.data;
@@ -47,17 +44,19 @@ export function buildUpsertPayload(input: BuildUpsertInput): BuildUpsertOutput {
       title: v.title,
       summary: v.summary,
       position: v.position,
-      estimated_minutes: v.estimatedMinutes,
-      is_published: true,
-      content: v.content,
+      est_minutes: v.estMinutes,
+      body: v.body,
     });
   }
+
   return {
     modules: [
       {
-        course_id: input.courseId,
-        title: moduleParsed.data.title,
-        position: moduleParsed.data.position,
+        slug: validatedModule.slug,
+        title: validatedModule.title,
+        goal: validatedModule.goal,
+        position: validatedModule.position,
+        est_minutes: validatedModule.estMinutes,
       },
     ],
     lessons,
@@ -66,23 +65,23 @@ export function buildUpsertPayload(input: BuildUpsertInput): BuildUpsertOutput {
 
 const CONTENT_ROOT = "content/curriculum/modules";
 
-function readModule(dir: string): { module: ModuleMeta; lessons: LessonMeta[] } {
+function readModule(dir: string): { module: ModuleInput; lessons: LessonInput[] } {
   const metaPath = join(CONTENT_ROOT, dir, "_meta.json");
-  const meta = JSON.parse(readFileSync(metaPath, "utf-8")) as ModuleMeta;
+  const meta = JSON.parse(readFileSync(metaPath, "utf-8")) as ModuleInput;
   const lessonsDir = join(CONTENT_ROOT, dir);
-  const lessons: LessonMeta[] = [];
+  const lessons: LessonInput[] = [];
   for (const entry of readdirSync(lessonsDir)) {
     if (!entry.startsWith("lesson-") || !entry.endsWith(".mdx")) continue;
     const raw = readFileSync(join(lessonsDir, entry), "utf-8");
     const parsed = matter(raw);
-    const fm = parsed.data as Partial<LessonMeta> & { estMinutes?: number };
+    const fm = parsed.data as Partial<LessonInput>;
     lessons.push({
       slug: String(fm.slug ?? ""),
       title: String(fm.title ?? ""),
       summary: String(fm.summary ?? ""),
       position: Number(fm.position ?? 0),
-      estimatedMinutes: Number(fm.estimatedMinutes ?? fm.estMinutes ?? 0),
-      content: { format: "mdx", raw: parsed.content },
+      estMinutes: Number(fm.estMinutes ?? 0),
+      body: parsed.content,
     });
   }
   lessons.sort((a, b) => a.position - b.position);
@@ -97,59 +96,51 @@ export async function main(): Promise<void> {
     throw new Error("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY required (or pass --dry-run).");
   }
 
-  const admin = !dryRun
-    ? createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } })
-    : null;
-
+  const modules: BuildUpsertInput[] = [];
   for (const entry of readdirSync(CONTENT_ROOT)) {
     if (!statSync(join(CONTENT_ROOT, entry)).isDirectory()) continue;
     const { module, lessons } = readModule(entry);
-
-    let courseId = "dry-run";
-    let moduleId = "dry-run";
-
-    if (admin) {
-      const { data: course, error: courseErr } = await admin
-        .from("courses")
+    if (!dryRun) {
+      const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
+      const { data: upserted, error } = await admin
+        .from("modules")
         .upsert(
-          { slug: module.courseSlug, title: COURSE_TITLE, description: "PPC coaching program for Filipino VAs", is_published: true },
+          {
+            slug: module.slug,
+            title: module.title,
+            goal: module.goal,
+            position: module.position,
+            est_minutes: module.estMinutes,
+          },
           { onConflict: "slug" },
         )
         .select("id")
         .single();
-      if (courseErr || !course) {
-        throw new Error(`Course upsert failed: ${courseErr?.message ?? "no row returned"}`);
+      if (error || !upserted) {
+        throw new Error(`Module upsert failed: ${error?.message ?? "no row returned"}`);
       }
-      courseId = course.id;
-
-      const { data: upserted, error: moduleErr } = await admin
-        .from("modules")
-        .upsert(
-          { course_id: courseId, title: module.title, position: module.position },
-          { onConflict: "course_id,position" },
-        )
-        .select("id")
-        .single();
-      if (moduleErr || !upserted) {
-        throw new Error(`Module upsert failed: ${moduleErr?.message ?? "no row returned"}`);
-      }
-      moduleId = upserted.id;
+      modules.push({ module, lessons, moduleId: upserted.id });
+    } else {
+      modules.push({ module, lessons, moduleId: "dry-run" });
     }
+  }
 
-    const payload = buildUpsertPayload({ module, lessons, moduleId, courseId });
-    console.warn(`[compiled] course=${module.courseSlug} module=${module.title} lessons=${payload.lessons.length} dryRun=${dryRun}`);
-
-    if (admin) {
-      const { error: lessonErr } = await admin
+  for (const m of modules) {
+    const payload = buildUpsertPayload(m);
+    console.warn(`[compiled] module=${m.module.slug} lessons=${payload.lessons.length} dryRun=${dryRun}`);
+    if (!dryRun) {
+      const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
+      const { error } = await admin
         .from("lessons")
         .upsert(payload.lessons, { onConflict: "module_id,slug" });
-      if (lessonErr) {
-        throw new Error(`Lesson upsert failed for ${module.title}: ${lessonErr.message}`);
+      if (error) {
+        throw new Error(`Lesson upsert failed for ${m.module.slug}: ${error.message}`);
       }
     }
   }
 }
 
+// Run main() when executed directly (tsx) but not when imported by tests.
 if (process.argv[1]?.endsWith("compile-mdx.ts")) {
   void main();
 }

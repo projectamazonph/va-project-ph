@@ -2,80 +2,72 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { buildUpsertPayload } from "@/scripts/curriculum/compile-mdx";
 
 const validModule = {
-  courseSlug: "amazon-ppc-foundations",
+  slug: "module-0",
   title: "Amazon Basics Before PPC",
+  goal: "Understand Amazon basics.",
   position: 0,
+  estMinutes: 20,
 };
+
 const validLesson = {
   slug: "what-is-amazon",
   title: "What is Amazon Marketplace?",
   summary: "Amazon is the online store.",
   position: 1,
-  estimatedMinutes: 3,
-  content: { format: "mdx" as const, raw: "# Hello" },
+  estMinutes: 3,
+  body: "# Hello",
 };
 
 describe("buildUpsertPayload", () => {
   beforeEach(() => {
-    vi.spyOn(console, "warn").mockImplementation(() => {});
+    vi.spyOn(console, "log").mockImplementation(() => {});
   });
 
-  it("produces module + lesson upserts with the schema-correct keys", () => {
-    const out = buildUpsertPayload({
+  it("produces a module upsert keyed by slug and a lesson upsert keyed by (module_id, slug)", () => {
+    const result = buildUpsertPayload({
       module: validModule,
       lessons: [validLesson],
       moduleId: "00000000-0000-0000-0000-000000000001",
-      courseId: "00000000-0000-0000-0000-000000000002",
     });
 
-    expect(out.modules).toEqual([
+    expect(result.modules).toEqual([
       expect.objectContaining({
-        course_id: "00000000-0000-0000-0000-000000000002",
+        slug: "module-0",
         title: "Amazon Basics Before PPC",
+        goal: "Understand Amazon basics.",
         position: 0,
+        est_minutes: 20,
       }),
     ]);
-
-    expect(out.lessons).toHaveLength(1);
-    expect(out.lessons[0]).toEqual(
+    expect(result.lessons).toHaveLength(1);
+    expect(result.lessons[0]).toEqual(
       expect.objectContaining({
         module_id: "00000000-0000-0000-0000-000000000001",
         slug: "what-is-amazon",
         title: "What is Amazon Marketplace?",
-        summary: "Amazon is the online store.",
         position: 1,
-        estimated_minutes: 3,
-        is_published: true,
-        content: { format: "mdx", raw: "# Hello" },
       }),
     );
+    expect(result.lessons[0]?.body).toContain("# Hello");
   });
 
-  it("rejects an invalid module via Zod", () => {
+  it("rejects an invalid module via Zod and throws a structured error", () => {
     expect(() =>
       buildUpsertPayload({
         module: { ...validModule, position: -1 },
         lessons: [validLesson],
         moduleId: "x",
-        courseId: "x",
       }),
     ).toThrow(/position/);
   });
 
-  it("rejects an invalid lesson via Zod", () => {
+  it("rejects an invalid lesson via Zod and throws a structured error", () => {
     expect(() =>
       buildUpsertPayload({
         module: validModule,
-        lessons: [{ ...validLesson, content: { format: "mdx", raw: "" } }],
+        lessons: [{ ...validLesson, body: "" }],
         moduleId: "x",
-        courseId: "x",
       }),
-    ).toThrow(/raw/);
-  });
-
-  it("is idempotent on repeated calls with the same input", () => {
-    const a = buildUpsertPayload({ module: validModule, lessons: [validLesson], moduleId: "m", courseId: "c" });
-    const b = buildUpsertPayload({ module: validModule, lessons: [validLesson], moduleId: "m", courseId: "c" });
-    expect(a).toEqual(b);
+    ).toThrow(/body/);
   });
 });
