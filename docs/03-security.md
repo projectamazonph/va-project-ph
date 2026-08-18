@@ -26,15 +26,14 @@ Model: defense in depth. Assume every input is hostile until validated.
 
 ## Authentication & Sessions
 
-Provider: Auth.js (credentials + optional OAuth). Passwords: argon2id.
-Sessions: httpOnly, Secure, SameSite=Lax cookies; 7-day expiry, sliding refresh.
-MFA required for teacher and admin roles.
-Password reset: single-use token, 15-minute expiry, rate-limited.
-Account lockout: 5 failed attempts -> 10-minute cooldown + audit log entry.
+Provider: Supabase Auth (email magic links initially; password and MFA can be
+added when the product requires them).
+Sessions: Supabase SSR cookies, httpOnly and Secure in production, with claim
+refresh handled by the Next.js proxy.
+Password reset and account lockout remain Supabase Auth configuration concerns.
 
-Scaffold enforcement: protected routes use `requireSession()` and verify an
-HMAC-signed `va_session` cookie before rendering. Token issuance remains part
-of the Auth.js credentials integration. `PREVIEW_MODE=true` is allowed only for
+Scaffold enforcement: protected routes use `requireSession()` and validate
+Supabase Auth claims before rendering. `PREVIEW_MODE=true` is allowed only for
 non-production local/E2E previews and must never be enabled in production.
 
 ## Authorization (RBAC)
@@ -54,7 +53,7 @@ Rules:
 ## Input & Output Safety
 
 Zod validation on ALL inputs (client hint + server enforcement - server is authoritative).
-SQL: Prisma parameterized only. Raw SQL requires Security review.
+SQL: Supabase migrations and repository queries only. Raw SQL requires Security review.
 XSS: React escaping by default; dangerouslySetInnerHTML banned by lint rule.
 Markdown content: sanitized (allowlist: p, ul, ol, li, table, b, i, code, no links to javascript:).
 File uploads: type allowlist, max size, stored outside webroot, served signed.

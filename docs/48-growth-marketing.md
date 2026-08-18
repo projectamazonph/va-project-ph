@@ -79,7 +79,7 @@ Safety: never DM-first outreach; all official offers only via app/email domains 
 
 Next.js SSG for landing + blog; structured data (Organization, FAQPage, Course).
 
-OG images generated per page (brand templates - future 31-brand-templates.md); Lighthouse at least 95 on landing.
+OG images generated per page using the brand identity rules in [31-brand-identity.md](./31-brand-identity.md); Lighthouse at least 95 on landing.
 
 Meta/copy from 35-copy-bible.md; all claims verifiable (no invented numbers - testimonial pipeline only).
 

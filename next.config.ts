@@ -1,11 +1,18 @@
 import type { NextConfig } from "next";
 
 const isProduction = process.env.NODE_ENV === "production";
+const supabaseOrigin = (() => {
+  try {
+    return process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin : null;
+  } catch {
+    return null;
+  }
+})();
 
 const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
-  "connect-src 'self'",
+  `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin}` : ""}`,
   "font-src 'self' https://cdn.jsdelivr.net",
   "form-action 'self'",
   "frame-ancestors 'none'",

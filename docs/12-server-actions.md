@@ -78,7 +78,7 @@ Optimistic XP only where idempotent and low-risk (progress ticks); never optimis
 - [ ] auth() called before any logic
 - [ ] Zod parse of raw: unknown (typed params forbidden)
 - [ ] No secrets/env reads beyond service layer
-- [ ] No Prisma imports in action file
+- [ ] No Supabase client imports in action file; use the service/repository boundary
 - [ ] Error messages plain-words, no stack leakage
 
 ## Testing Requirements

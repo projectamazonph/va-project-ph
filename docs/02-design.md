@@ -6,12 +6,13 @@ reviewed: 2026-08-17
 owner: Design Lead
 status: active
 supersedes: PPC Coach orange/navy palette (archived to docs/archive/design.md)
+superseded-by: docs/31-brand-identity.md for brand identity and token ownership
 ---
 
 The VA Project Philippines — Brand, Theme & Visual Guardrails
 
 Version: 1.0 · Reviewed: 2026-08-17 · Owner: Design Lead
-Supersedes the "PPC Coach" orange/navy palette from 02-design.md. All token values here win on conflict.
+The brand identity and token source of truth is [31-brand-identity.md](./31-brand-identity.md). This file retains component-level visual implementation guardrails and detailed usage rules.
 
 Brand Core
 

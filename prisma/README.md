@@ -1,5 +1,8 @@
-# Prisma boundary
+# Persistence boundary
 
-The Prisma schema and migrations will be added with the first persistence slice.
-All database access must stay behind `server/repositories/` and services must not
-expose Prisma types, following `docs/08-backend.md`.
+Supabase Postgres migrations live in `supabase/migrations/`. All database access
+must stay behind `server/repositories/` and services must not expose Supabase
+client types, following `docs/08-backend.md`.
+
+This directory is retained temporarily as a migration marker for tooling that
+expects a persistence directory. It is not an active Prisma integration.

@@ -167,7 +167,7 @@ Any change requires ADR + Tech Lead + Design Lead sign-off (copy depends on thes
 
 Schemas export both validator and inferred type (z.infer).
 Server actions/API call .parse() (throws) or .safeParse() (returns envelope) - never trust request bodies.
-DB writes go through mappers: schema -> prisma input. No raw request object reaches Prisma.
+DB writes go through mappers: schema -> repository input. No raw request object reaches Supabase.
 Versioning: breaking schema change = new version (v2/), old version kept until migration plan completes.
 Tests: every schema has round-trip tests (valid passes, invalid rejects with expected code).
 

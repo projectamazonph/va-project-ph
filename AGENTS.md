@@ -1,6 +1,6 @@
 ---
 title: PPC Coach - Agent Instructions & Guardrails
-file: 01-agent.md
+file: AGENTS.md
 version: 1.0
 reviewed: 2026-08-17
 owner: Tech Lead
@@ -21,9 +21,9 @@ You are building PPC Coach: a coaching web app teaching absolute-beginner virtua
 | Concern | Technology |
 |---|---|
 | Framework | Next.js (App Router) + TypeScript strict: true |
-| Styling | Tailwind CSS; tokens only from 02-design.md |
+| Styling | Tailwind CSS; tokens only from docs/02-design.md |
 | Validation | Zod at every boundary (client, server action, API, DB input) |
-| ORM / DB | Prisma + PostgreSQL |
+| DB / Auth | Supabase PostgreSQL + Supabase Auth |
 | Cache / limits | Redis (rate limits, sessions, queues) |
 | Testing | Vitest + Testing Library (unit), Playwright (e2e) |
 | Fonts | fontsource CDN only. Never Google Fonts. |
@@ -44,11 +44,11 @@ Forbidden:
 - Changing money formulas (ACOS = spend/sales*100, ROAS = sales/spend, break-even = margin %) without explicit sign-off.
 - Silently changing public API contracts - version them.
 - Installing dependencies not on the approved list in package.json review.
-- Writing user-facing copy with jargon - plain words only, per glossary in 02-design.md.
+- Writing user-facing copy with jargon - plain words only, per glossary in docs/02-design.md.
 
 ## Working Protocol for Agents
 
-Read first: 00-INDEX.md, the module doc for the file you touch, and 17-adr-template.md history for that area.
+Read first: [docs/index.md](./docs/index.md), the module doc for the file you touch, and [docs/17-adr-template.md](./docs/17-adr-template.md) history for that area.
 Plan: Output a numbered plan (files touched, tests added, risks) before editing.
 TDD: Write failing test -> minimal implementation -> refactor. Never submit green-by-accident code.
 Small diffs: One concern per PR.

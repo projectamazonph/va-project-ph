@@ -1,28 +1,41 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import {
-  SESSION_COOKIE_NAME,
-  type Role,
-  type SessionPayload,
-  verifySessionToken,
-} from "@/server/auth/session-token";
-
-export const sessionCookieOptions = {
-  httpOnly: true,
-  sameSite: "lax" as const,
-  secure: process.env.NODE_ENV === "production",
-  path: "/",
-  maxAge: 60 * 60 * 24 * 7,
-};
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { createClient } from "@/lib/supabase/server";
+import { type Role, type SessionPayload } from "@/server/auth/session-token";
 
 export async function getSession(): Promise<SessionPayload | null> {
-  const secret = process.env.AUTH_SECRET;
-  if (!secret) {
+  if (!isSupabaseConfigured()) {
     return null;
   }
 
-  const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
-  return token ? verifySessionToken(token, secret) : null;
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.getClaims();
+    const claims = data?.claims;
+
+    if (error || !claims || typeof claims.sub !== "string") {
+      return null;
+    }
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", claims.sub)
+      .maybeSingle();
+
+    const role = profile?.role;
+    const validRole: Role = role === "teacher" || role === "admin" ? role : "student";
+    const now = Math.floor(Date.now() / 1000);
+
+    return {
+      sub: claims.sub,
+      role: validRole,
+      iat: typeof claims.iat === "number" ? claims.iat : now,
+      exp: typeof claims.exp === "number" ? claims.exp : now + 60 * 60,
+    };
+  } catch {
+    return null;
+  }
 }
 
 export async function requireSession(nextPath = "/dashboard") {

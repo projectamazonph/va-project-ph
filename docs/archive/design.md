@@ -1,10 +1,10 @@
 ---
 title: PPC Coach - Design System and UX
-file: ppc-coach/design.md
+file: design.md
 version: 1.0
 reviewed: 2026-08-17
 owner: Design Lead
-status: active
+status: archived
 supersedes: null
 superseded-by: docs/02-design.md (VA Project PH blue/sun palette)
 source: recovered from conversation transcript (user paste of PPC Coach index)

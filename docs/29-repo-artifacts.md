@@ -41,7 +41,7 @@ Refs: #
 ## TDD evidence
 - [ ] Failing test commit precedes implementation (or tests-only PR linked): _
 
-## Self-review checklist (01-agent.md §4.5)
+## Self-review checklist (AGENTS.md)
 - [ ] strict types, zero any
 - [ ] Zod at every new boundary
 - [ ] Unit tests: happy + failure paths
@@ -82,7 +82,8 @@ Refs: #
 | `DATABASE_URL` | all | Postgres | 90d |
 | `DIRECT_URL` | dev/CI | migrations | 90d |
 | `REDIS_URL` | all | limits/jobs/cache | 90d |
-| `AUTH_SECRET` | all | session signing | 180d |
+| `NEXT_PUBLIC_SUPABASE_URL` | all | Supabase project URL | platform-managed |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | all | browser-safe Supabase key | platform-managed |
 | `NEXT_PUBLIC_APP_URL` | all | canonical URL | n/a |
 | `EMAIL_API_KEY`, `EMAIL_FROM` | stg/prod | transactional mail | 90d |
 | `SENTRY_DSN` | stg/prod | errors | on demand |
@@ -122,7 +123,7 @@ Refs: #
 
 ## Miscellaneous Required Files
 
-- `CONTRIBUTING.md` -> points to 00-INDEX.md + TDD protocol summary.
+- `CONTRIBUTING.md` -> points to `docs/index.md` + TDD protocol summary.
 - `CODE_OF_CONDUCT.md` -> Contributor Covenant v2.1, enforcement = Tech Lead + Product Owner.
 - `SECURITY.md` -> disclosure policy summary + contact.
 - `public/security.txt` -> contact, policy link, expiry.

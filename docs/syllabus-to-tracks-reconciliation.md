@@ -2,24 +2,42 @@
 title: Syllabus to Implementation Tracks Reconciliation
 file: syllabus-to-tracks-reconciliation.md
 version: 1.0
-reviewed: 2026-08-17
+reviewed: 2026-08-18
 owner: Tech Lead + Curriculum Lead
 status: active
 supersedes: null
 superseded-by: null
-source-of-truth: docs/curriculum-syllabus.md
+document-type: curriculum-to-product traceability register
+audience: curriculum, product, engineering, and delivery teams
+source-of-truth: curriculum-syllabus.md
 ---
 
 # Syllabus to Implementation Tracks Reconciliation
 
-Bridges the authoritative syllabus in [`curriculum-syllabus.md`](./curriculum-syllabus.md) (a verbatim copy of the original beginner-first syllabus) to the engineering implementation tracks in this standalone VA Project Philippines codebase.
+## Document Control
+
+| Field | Value |
+|---|---|
+| Document type | Curriculum-to-product traceability register |
+| Product | VA Project Philippines |
+| Owner | Tech Lead + Curriculum Lead |
+| Status | Active |
+| Version | 1.0 |
+| Review cadence | At least every 30 days and whenever curriculum or implementation scope changes |
+| Authoritative curriculum | [`curriculum-syllabus.md`](./curriculum-syllabus.md) |
+
+## Purpose and Authority
+
+This register maps the authoritative syllabus in [`curriculum-syllabus.md`](./curriculum-syllabus.md) to the engineering implementation tracks in this standalone VA Project Philippines codebase.
 
 This is a greenfield project. It is not related to, dependent on, or migrated
 from `amph-v2-greenfield` or any other external implementation repository.
 
-## Purpose
+The syllabus remains authoritative for learning outcomes and curriculum scope. This register is authoritative only for traceability between those outcomes and product implementation work.
 
-`curriculum-syllabus.md` is the curriculum source-of-truth. Every lesson, quiz, simulator case, and content item must trace back to a syllabus module. This file is the map.
+## Scope and Traceability Requirements
+
+Every lesson, quiz, simulator case, and other curriculum content must trace back to a syllabus module. Every engineering track that supports curriculum delivery must identify the module or modules it serves in this register.
 
 When adding new curriculum content:
 
@@ -30,14 +48,15 @@ When adding new curriculum content:
 When adding new engineering tracks:
 
 1. Add a row here that names the syllabus module or modules the track supports.
-2. Update the index.
+2. Identify the implementation status using the legend below.
+3. Update the documentation index when the document set changes.
 
 ## Status legend
 
-- **Shipped** - feature is live in this project's production / greenfield implementation.
-- **In progress** - actively being built.
-- **Planned** - scoped, story written, not yet started.
-- **Not started** - known gap, no commitment yet.
+- **Shipped** - the capability is available in the current greenfield implementation.
+- **In progress** - implementation is actively underway.
+- **Planned** - scope is defined but implementation has not started.
+- **Not started** - the gap is known but no implementation commitment has been made.
 
 ## Module mapping
 
@@ -61,7 +80,7 @@ When adding new engineering tracks:
 
 ## Web app coaching aid modules (Part 2 of syllabus)
 
-The web app plan in the syllabus (lines 2,203-3,005) describes 10 web app modules (A-J). These map to engineering tracks in this repository.
+Part Two of the syllabus, "Turning This Syllabus Into a Full-Featured Web App Coaching Aid," describes 10 web app modules (A-J). These map to engineering tracks in this repository.
 
 | Web app module | Topic | Implementation track | Status |
 |---|---|---|---|
@@ -80,10 +99,10 @@ The web app plan in the syllabus (lines 2,203-3,005) describes 10 web app module
 
 - Authoritative syllabus: [`curriculum-syllabus.md`](./curriculum-syllabus.md)
 - Voice rules: see `copy-bible.md` (PH blue/sun palette + Filipino VA voice)
-- `docs/01-agent.md` voice and design guardrails apply verbatim.
+- `AGENTS.md` voice and design guardrails apply verbatim.
 
 ## Update rule
 
-When a syllabus module changes, update this file in the same PR. When an engineering track ships, update the status column in the same PR.
+Changes to curriculum scope and implementation mapping are reviewed by both the Curriculum Lead and Tech Lead. Update this register in the same PR when a syllabus module changes, an engineering track ships, or an implementation status changes.
 
 When a new syllabus module is added, append a row in both tables in the same PR.
