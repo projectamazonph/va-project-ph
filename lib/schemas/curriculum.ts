@@ -1,31 +1,51 @@
 import { z } from "zod";
 
-export const LessonProgressStatusSchema = z.enum(["not_started", "in_progress", "complete"]);
+// Status enum matches the `lesson_progress.status` CHECK constraint.
+export const LessonProgressStatusSchema = z.enum([
+  "not_started",
+  "in_progress",
+  "complete",
+]);
 export type LessonProgressStatus = z.infer<typeof LessonProgressStatusSchema>;
 
-export const ModuleSchema = z.object({
-  slug: z
-    .string()
-    .min(1)
-    .max(64)
-    .regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers, and hyphens only."),
-  title: z.string().min(1).max(200),
-  goal: z.string().min(1).max(500),
-  position: z.number().int().min(0).max(999),
-  estMinutes: z.number().int().min(1).max(240),
-});
-export type ModuleInput = z.infer<typeof ModuleSchema>;
+// URL slug convention → integer position. The DB has no `modules.slug`;
+// module is located by `(course_id, position)`. The URL keeps the
+// syllabus convention `module-N` for readability.
+export const ModuleRoutingSlugSchema = z
+  .string()
+  .regex(/^module-(\d+)$/, "Use module-{int} convention.")
+  .transform((v) => Number(v.slice(7)));
+export type ModulePosition = number;
 
-export const LessonSchema = z.object({
-  slug: z
-    .string()
-    .min(1)
-    .max(64)
-    .regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers, and hyphens only."),
+const SlugSchema = z
+  .string()
+  .min(1)
+  .max(64)
+  .regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers, and hyphens only.");
+
+// Authoring-side shape for the module row. `_meta.json` provides this.
+// DB columns written: `course_id`, `title`, `position` (UNIQUE key).
+export const ModuleMetaSchema = z.object({
+  courseSlug: SlugSchema,
+  title: z.string().min(1).max(200),
+  position: z.number().int().min(0).max(99),
+});
+export type ModuleMeta = z.infer<typeof ModuleMetaSchema>;
+
+// Authoring-side shape for a lesson. Bodies parsed by gray-matter.
+export const LessonMetaSchema = z.object({
+  slug: SlugSchema,
   title: z.string().min(1).max(200),
   summary: z.string().min(1).max(500),
-  position: z.number().int().min(1).max(999),
-  estMinutes: z.number().int().min(1).max(60),
-  body: z.string().min(1).max(20_000),
+  position: z.number().int().min(1).max(99),
+  estimatedMinutes: z.number().int().min(1).max(60),
+  content: z.object({
+    format: z.literal("mdx"),
+    raw: z.string().min(1).max(20_000),
+  }),
 });
-export type LessonInput = z.infer<typeof LessonSchema>;
+export type LessonMeta = z.infer<typeof LessonMetaSchema>;
+
+// Shape stored in `lessons.content` JSONB column.
+export const LessonContentSchema = LessonMetaSchema.shape.content;
+export type LessonContent = z.infer<typeof LessonContentSchema>;
