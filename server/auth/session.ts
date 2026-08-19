@@ -1,32 +1,24 @@
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 import { type Role, type SessionPayload } from "@/server/auth/session-token";
 
-export async function getSession(): Promise<SessionPayload | null> {
-  if (!isSupabaseConfigured()) {
-    return null;
-  }
-
+export const getSession = cache(async (): Promise<SessionPayload | null> => {
+  if (!isSupabaseConfigured()) return null;
   try {
     const supabase = await createClient();
     const { data, error } = await supabase.auth.getClaims();
     const claims = data?.claims;
-
-    if (error || !claims || typeof claims.sub !== "string") {
-      return null;
-    }
-
+    if (error || !claims || typeof claims.sub !== "string") return null;
     const { data: profile } = await supabase
       .from("profiles")
       .select("role")
       .eq("id", claims.sub)
       .maybeSingle();
-
     const role = profile?.role;
     const validRole: Role = role === "teacher" || role === "admin" ? role : "student";
     const now = Math.floor(Date.now() / 1000);
-
     return {
       sub: claims.sub,
       role: validRole,
@@ -36,14 +28,13 @@ export async function getSession(): Promise<SessionPayload | null> {
   } catch {
     return null;
   }
-}
+});
 
 export async function requireSession(nextPath = "/dashboard") {
   const session = await getSession();
   if (!session) {
     redirect(`/login?next=${encodeURIComponent(nextPath)}`);
   }
-
   return session;
 }
 
@@ -58,6 +49,5 @@ export async function requireRole(role: Role, nextPath = "/dashboard") {
   if (roleRank[session.role] < roleRank[role]) {
     redirect("/not-found");
   }
-
   return session;
 }

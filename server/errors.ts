@@ -8,3 +8,13 @@ export class AppError extends Error {
     this.name = "AppError";
   }
 }
+
+export class CurriculumError extends AppError {
+  constructor(
+    code: "COURSE_NOT_FOUND" | "MODULE_NOT_FOUND" | "LESSON_NOT_FOUND" | "PROGRESS_FORBIDDEN",
+    safeMessage: string,
+  ) {
+    super(code, code === "PROGRESS_FORBIDDEN" ? 403 : 404, safeMessage);
+    this.name = "CurriculumError";
+  }
+}
