@@ -10,11 +10,14 @@ export type LessonProgressStatus = z.infer<typeof LessonProgressStatusSchema>;
 
 // URL slug convention → integer position. The DB has no `modules.slug`;
 // module is located by `(course_id, position)`. The URL keeps the
-// syllabus convention `module-N` for readability.
+// syllabus convention `module-N` for readability. The {1,2} regex bounds
+// the input to 0..99 to match `ModuleMetaSchema.position` and avoid
+// integer-precision loss when the URL contains a giant digit string.
 export const ModuleRoutingSlugSchema = z
   .string()
-  .regex(/^module-(\d+)$/, "Use module-{int} convention.")
-  .transform((v) => Number(v.slice(7)));
+  .regex(/^module-(\d{1,2})$/, "Use module-{int} convention.")
+  .transform((v) => Number(v.slice(7)))
+  .pipe(z.number().int().min(0).max(99));
 export type ModulePosition = number;
 
 const SlugSchema = z
