@@ -80,6 +80,12 @@ describe("ModuleRoutingSlugSchema", () => {
     expect(() => ModuleRoutingSlugSchema.parse("module-x")).toThrow();
     expect(() => ModuleRoutingSlugSchema.parse("")).toThrow();
   });
+  it("rejects oversized digit strings (precision-loss safety)", () => {
+    // 17-digit input exceeds Number.MAX_SAFE_INTEGER and would collide.
+    expect(() => ModuleRoutingSlugSchema.parse("module-9007199254740993")).toThrow();
+    expect(() => ModuleRoutingSlugSchema.parse("module-100")).toThrow(); // position is 0..99
+    expect(() => ModuleRoutingSlugSchema.parse("module-999")).toThrow();
+  });
 });
 
 describe("LessonProgressStatusSchema", () => {
