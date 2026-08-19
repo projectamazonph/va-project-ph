@@ -1,57 +1,84 @@
 import { describe, expect, it } from "vitest";
 import {
+  LessonContentSchema,
+  LessonMetaSchema,
   LessonProgressStatusSchema,
-  LessonSchema,
-  ModuleSchema,
+  ModuleMetaSchema,
+  ModuleRoutingSlugSchema,
 } from "@/lib/schemas/curriculum";
 
-describe("ModuleSchema", () => {
+describe("ModuleMetaSchema", () => {
   it("accepts a valid module", () => {
-    const result = ModuleSchema.safeParse({
-      slug: "module-0",
+    const r = ModuleMetaSchema.safeParse({
+      courseSlug: "amazon-ppc-foundations",
       title: "Amazon Basics Before PPC",
-      goal: "Understand what Amazon is, what a product page is, and why ads matter.",
       position: 0,
-      estMinutes: 20,
     });
-    expect(result.success).toBe(true);
+    expect(r.success).toBe(true);
+  });
+
+  it("rejects a missing courseSlug", () => {
+    const r = ModuleMetaSchema.safeParse({ title: "x", position: 0 });
+    expect(r.success).toBe(false);
   });
 
   it("rejects negative position", () => {
-    const result = ModuleSchema.safeParse({
-      slug: "module-0",
+    const r = ModuleMetaSchema.safeParse({
+      courseSlug: "amazon-ppc-foundations",
       title: "x",
-      goal: "x",
       position: -1,
-      estMinutes: 10,
     });
-    expect(result.success).toBe(false);
+    expect(r.success).toBe(false);
   });
 });
 
-describe("LessonSchema", () => {
+describe("LessonMetaSchema", () => {
   it("accepts a valid lesson", () => {
-    const result = LessonSchema.safeParse({
+    const r = LessonMetaSchema.safeParse({
       slug: "what-is-amazon",
       title: "What is Amazon Marketplace?",
-      summary: "Amazon is a giant online store.",
+      summary: "Amazon is the online store.",
       position: 1,
-      estMinutes: 3,
-      body: "# Hello",
+      estimatedMinutes: 3,
+      content: { format: "mdx", raw: "# Hello" },
     });
-    expect(result.success).toBe(true);
+    expect(r.success).toBe(true);
   });
 
-  it("rejects empty body", () => {
-    const result = LessonSchema.safeParse({
+  it("rejects an empty content.raw", () => {
+    const r = LessonMetaSchema.safeParse({
       slug: "x",
       title: "x",
       summary: "x",
       position: 1,
-      estMinutes: 1,
-      body: "",
+      estimatedMinutes: 1,
+      content: { raw: "" },
     });
-    expect(result.success).toBe(false);
+    expect(r.success).toBe(false);
+  });
+
+  it("rejects estimatedMinutes above 60", () => {
+    const r = LessonMetaSchema.safeParse({
+      slug: "x",
+      title: "x",
+      summary: "x",
+      position: 1,
+      estimatedMinutes: 240,
+      content: { raw: "x" },
+    });
+    expect(r.success).toBe(false);
+  });
+});
+
+describe("ModuleRoutingSlugSchema", () => {
+  it("parses module-N to integer N", () => {
+    expect(ModuleRoutingSlugSchema.parse("module-0")).toBe(0);
+    expect(ModuleRoutingSlugSchema.parse("module-13")).toBe(13);
+  });
+  it("rejects non-conforming slugs", () => {
+    expect(() => ModuleRoutingSlugSchema.parse("MODULE-0")).toThrow();
+    expect(() => ModuleRoutingSlugSchema.parse("module-x")).toThrow();
+    expect(() => ModuleRoutingSlugSchema.parse("")).toThrow();
   });
 });
 
@@ -63,5 +90,20 @@ describe("LessonProgressStatusSchema", () => {
   });
   it("rejects unknown statuses", () => {
     expect(() => LessonProgressStatusSchema.parse("done")).toThrow();
+  });
+});
+
+describe("LessonContentSchema", () => {
+  it("accepts a valid content envelope", () => {
+    const r = LessonContentSchema.safeParse({ format: "mdx", raw: "# Hello" });
+    expect(r.success).toBe(true);
+  });
+  it("rejects an empty raw", () => {
+    const r = LessonContentSchema.safeParse({ format: "mdx", raw: "" });
+    expect(r.success).toBe(false);
+  });
+  it("rejects an unknown format", () => {
+    const r = LessonContentSchema.safeParse({ format: "html", raw: "x" });
+    expect(r.success).toBe(false);
   });
 });

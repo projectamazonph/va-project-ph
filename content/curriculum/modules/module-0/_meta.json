@@ -1,7 +1,5 @@
 {
-  "slug": "module-0",
+  "courseSlug": "amazon-ppc-foundations",
   "title": "Amazon Basics Before PPC",
-  "goal": "Understand what Amazon is, what a product page is, and why ads matter.",
-  "position": 0,
-  "estMinutes": 20
+  "position": 0
 }
