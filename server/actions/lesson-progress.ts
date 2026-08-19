@@ -1,10 +1,10 @@
 "use server";
 
 import { z } from "zod";
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 import { getSession } from "@/server/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { markLessonStatus, type SupabaseLike } from "@/server/services/progress-service";
+import { markLessonStatus, progressTag, type SupabaseLike } from "@/server/services/progress-service";
 import { CurriculumError } from "@/server/errors";
 import { LessonProgressStatusSchema } from "@/lib/schemas/curriculum";
 
@@ -32,14 +32,14 @@ export async function markLessonStatusAction(
   if (!parsed.success) {
     return { ok: false, error: { code: "INVALID_INPUT", message: parsed.error.issues[0]?.message ?? "Invalid input." } };
   }
-  const supabase = (await createClient()) as unknown as SupabaseLike;
   try {
+    const supabase = (await createClient()) as unknown as SupabaseLike;
     const result = await markLessonStatus(supabase, {
       studentId: session.sub,
       lessonId: parsed.data.lessonId,
       status: parsed.data.status,
     });
-    revalidateTag(`progress:student:${session.sub}`, "max");
+    updateTag(progressTag(session.sub));
     return { ok: true, lessonId: result.lessonId, status: result.status };
   } catch (err) {
     if (err instanceof CurriculumError && err.code === "PROGRESS_FORBIDDEN") {

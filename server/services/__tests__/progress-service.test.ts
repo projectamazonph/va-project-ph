@@ -27,6 +27,7 @@ describe("markLessonStatus", () => {
         completed_at: expect.any(String),
       }),
     );
+    expect(upsert.mock.calls[0]![0]).not.toHaveProperty("current_step");
     expect(upsert.mock.calls[0]![1]).toEqual({ onConflict: "student_id,lesson_id" });
   });
 

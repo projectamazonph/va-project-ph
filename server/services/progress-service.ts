@@ -28,7 +28,7 @@ export async function markLessonStatus(
   const { error } = await supabase
     .from("lesson_progress")
     .upsert(
-      { student_id: studentId, lesson_id: lessonId, status, current_step: 0, completed_at: completedAt },
+      { student_id: studentId, lesson_id: lessonId, status, completed_at: completedAt },
       { onConflict: "student_id,lesson_id" },
     );
   if (error) {
@@ -39,3 +39,5 @@ export async function markLessonStatus(
   }
   return { lessonId, status };
 }
+
+export const progressTag = (studentId: string) => `progress:student:${studentId}`;
