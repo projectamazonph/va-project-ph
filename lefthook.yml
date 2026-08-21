@@ -7,3 +7,6 @@ pre-commit:
       run: pnpm lint
     typecheck:
       run: pnpm typecheck
+    curriculum-check:
+      glob: "content/curriculum/**/*.mdx"
+      run: pnpm curriculum:check
