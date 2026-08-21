@@ -62,7 +62,7 @@ When adding new engineering tracks:
 
 | Module | Topic | Goal (short) | Implementation track | Status |
 |---|---|---|---|---|
-| Module 0 | Amazon Basics | Where PPC fits on Amazon | `content/curriculum/modules/` lesson corpus + landing-page copy | Planned |
+| Module 0 | Amazon Basics | Where PPC fits on Amazon | `app/(app)/learn/[moduleSlug]/[lessonSlug]/` + `content/curriculum/modules/module-0/` lesson corpus + `lib/curriculum/render-markdown.ts` | Shipped (UI, schema, content corpus) |
 | Module 1 | What is PPC? | How paid ads work | `content/curriculum/modules/` lesson corpus + landing-page `what-is-ppc` block | Planned |
 | Module 2 | Money Math | CPC, ACOS, ROAS, profit | Domain `Money` value object + quiz fixtures in `content/curriculum/quiz-questions.json` | Shipped (domain) + Planned (lesson content) |
 | Module 3 | Campaign Structure | Campaigns, ad groups, targeting | Campaign builder sandbox (simulator Module D) + admin campaign builder | Shipped (admin) + Planned (sandbox) |

@@ -11,8 +11,7 @@ supersedes: docs/index.md v2 (production-readiness framework section added)
 
 # The VA Project Philippines - Documentation Index (v3)
 
-Last verified: 2026-08-18 - Owner: Docs Owner - Rule: every doc carries frontmatter; re-verify every 30 days (15-living-documentation.md).
-Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the duplicate-19 numbering; all references updated.
+Last verified: 2026-08-21 - Owner: Docs Owner - Rule: every doc carries frontmatter; re-verify every 30 days (15-living-documentation.md). Added 62-adr-curriculum-content-model.md (ADR 62) and flipped Module 0 status to "Shipped" in syllabus-to-tracks-reconciliation.md. Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the duplicate-19 numbering; all references updated.
 
 ## A - Agent, Process & Standards
 
@@ -42,6 +41,7 @@ Fix applied: former 19-onboarding.md is renamed 19b-onboarding.md to resolve the
 | [59-student-ux-copy-deck.md](./59-student-ux-copy-deck.md) | Student lesson and web-app UX copy deck | Curriculum + Design Lead |
 | [60-ux-ui-copy-foundation.md](./60-ux-ui-copy-foundation.md) | MVP UX/UI foundation, information architecture, flows, and student screen copy | Product + Design Lead |
 | [61-adr-supabase-foundation.md](./61-adr-supabase-foundation.md) | Supabase authentication, persistence, and RLS decision | Tech Lead |
+| [62-adr-curriculum-content-model.md](./62-adr-curriculum-content-model.md) | Curriculum content storage and rendering: M0 plain markdown + `marked`, M2 real MDX runtime | Tech Lead + Curriculum Lead |
 | [22-content-curriculum-ops.md](./22-content-curriculum-ops.md) | Curriculum pipeline & i18n | Design Lead |
 | [curriculum-syllabus.md](./curriculum-syllabus.md) | Authoritative beginner-first Amazon PPC curriculum source of truth | Curriculum Lead |
 | [syllabus-to-tracks-reconciliation.md](./syllabus-to-tracks-reconciliation.md) | Curriculum-to-product traceability for modules 0-14 and coaching aids A-J | Tech Lead + Curriculum Lead |
