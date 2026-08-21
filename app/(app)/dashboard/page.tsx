@@ -1,16 +1,12 @@
 import Link from "next/link";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { requireSession } from "@/server/auth/session";
 
 export const metadata = { title: "Learning hub" };
 
 export default async function DashboardPage() {
-  const previewMode = process.env.NODE_ENV !== "production" && process.env.PREVIEW_MODE === "true";
-  if (!previewMode) {
-    await requireSession("/dashboard");
-  }
-
+  // Auth is enforced by `app/(app)/layout.tsx`. The page may assume a
+  // signed-in visitor (or `PREVIEW_MODE=true` in non-prod).
   return (
     <main className="min-h-screen">
       <header className="border-b border-line bg-ink text-white">
@@ -38,7 +34,7 @@ export default async function DashboardPage() {
             <h2 className="mt-1 text-xl font-bold">Amazon PPC foundations</h2>
             <p className="mt-2 text-sm text-muted">A short, plain-word introduction to how ads help shoppers find products.</p>
           </div>
-          <ButtonLink href="/">Back to home</ButtonLink>
+          <ButtonLink href="/learn/module-0">Start Module 0</ButtonLink>
         </Card>
       </div>
     </main>
