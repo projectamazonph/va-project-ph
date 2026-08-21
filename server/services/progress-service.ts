@@ -21,7 +21,7 @@ export async function markLessonStatus(
 ): Promise<{ lessonId: string; status: LessonProgressStatus }> {
   const parsed = InputSchema.safeParse(input);
   if (!parsed.success) {
-    throw new CurriculumError("PROGRESS_FORBIDDEN", "Invalid progress input.");
+    throw new CurriculumError("INVALID_INPUT", "Invalid progress input.");
   }
   const { studentId, lessonId, status } = parsed.data;
   const completedAt = status === "complete" ? new Date().toISOString() : null;

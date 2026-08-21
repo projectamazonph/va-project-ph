@@ -50,7 +50,11 @@ describe("markLessonStatus", () => {
         lessonId: LESSON_ID,
         status: "done" as never,
       }),
-    ).rejects.toBeInstanceOf(CurriculumError);
+    ).rejects.toMatchObject({
+      name: "CurriculumError",
+      code: "INVALID_INPUT",
+      status: 400,
+    });
   });
 
   it("sets completed_at to null when status is not complete", async () => {
@@ -63,4 +67,4 @@ describe("markLessonStatus", () => {
     const upsert = (sb.from as ReturnType<typeof vi.fn>).mock.results[0]!.value.upsert as ReturnType<typeof vi.fn>;
     expect(upsert.mock.calls[0]![0]).toMatchObject({ completed_at: null });
   });
-});
+});

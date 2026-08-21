@@ -42,7 +42,10 @@ export async function markLessonStatusAction(
     updateTag(progressTag(session.sub));
     return { ok: true, lessonId: result.lessonId, status: result.status };
   } catch (err) {
-    if (err instanceof CurriculumError && err.code === "PROGRESS_FORBIDDEN") {
+    if (
+      err instanceof CurriculumError &&
+      (err.code === "PROGRESS_FORBIDDEN" || err.code === "INVALID_INPUT")
+    ) {
       return { ok: false, error: { code: err.code, message: err.safeMessage } };
     }
     return { ok: false, error: { code: "UNKNOWN", message: "Something went wrong. Try again." } };

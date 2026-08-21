@@ -101,6 +101,26 @@ describe("markLessonStatusAction", () => {
     expect(callArgs.studentId).not.toBe("99999999-9999-4999-8999-999999999999");
   });
 
+  it("surfaces a service-thrown INVALID_INPUT (not a form-input rejection)", async () => {
+    (getSession as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+      sub: "11111111-1111-4111-8111-111111111111",
+      role: "student",
+    });
+    (createClient as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({ from: () => ({}) });
+    (markLessonStatus as unknown as ReturnType<typeof vi.fn>).mockRejectedValue(
+      new CurriculumError("INVALID_INPUT", "Invalid progress input."),
+    );
+    const fd = new FormData();
+    fd.set("lessonId", "22222222-2222-4222-8222-222222222222");
+    fd.set("status", "complete");
+    const r = await markLessonStatusAction(null, fd);
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(r.error.code).toBe("INVALID_INPUT");
+      expect(r.error.message).toBe("Invalid progress input.");
+    }
+  });
+
   it("returns UNKNOWN when the service throws a generic Error", async () => {
     (getSession as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
       sub: "11111111-1111-4111-8111-111111111111",
@@ -135,4 +155,4 @@ describe("markLessonStatusAction", () => {
       expect(r.error.message).toBe("Something went wrong. Try again.");
     }
   });
-});
+});
